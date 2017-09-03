@@ -15,18 +15,20 @@ var _constants = require("./constants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const isAuthenticated = () => _axios2.default.defaults.headers.common['Authorization'] !== undefined;
+var isAuthenticated = function isAuthenticated() {
+  return _axios2.default.defaults.headers.common['Authorization'] !== undefined;
+};
 
-const setHeaders = () => {
+var setHeaders = function setHeaders() {
   try {
-    const token = (0, _auth.getToken)();
+    var token = (0, _auth.getToken)();
     _axios2.default.defaults.headers.common['Authorization'] = `Token ${(0, _auth.getToken)()}`;
   } catch (e) {
     throw new Error('Unauthenticated');
   }
 };
 
-const getTimedAccounts = exports.getTimedAccounts = () => {
+var getTimedAccounts = exports.getTimedAccounts = function getTimedAccounts() {
   if (!isAuthenticated()) {
     setHeaders();
   }
@@ -37,7 +39,7 @@ const getTimedAccounts = exports.getTimedAccounts = () => {
   });
 };
 
-const getLeaveRequests = exports.getLeaveRequests = () => {
+var getLeaveRequests = exports.getLeaveRequests = function getLeaveRequests() {
   if (!isAuthenticated()) {
     setHeaders();
   }
@@ -52,7 +54,7 @@ const getLeaveRequests = exports.getLeaveRequests = () => {
   });
 };
 
-const getBalances = exports.getBalances = () => {
+var getBalances = exports.getBalances = function getBalances() {
   if (!isAuthenticated()) {
     setHeaders();
   }
@@ -62,7 +64,7 @@ const getBalances = exports.getBalances = () => {
   });
 };
 
-const getCurrentUser = exports.getCurrentUser = () => {
+var getCurrentUser = exports.getCurrentUser = function getCurrentUser() {
   if (!isAuthenticated()) {
     setHeaders();
   }

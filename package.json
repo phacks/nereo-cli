@@ -2,12 +2,15 @@
   "name": "nereo-cli",
   "version": "0.0.1",
   "description": "A CLI for Nereo — Leave Management SaaS",
-  "main": "cli.js",
+  "main": "build/cli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "./node_modules/babel-cli/bin/babel-node.js ./src/cli.js",
     "build": "babel src -d build",
     "start": "node build/cli.js"
+  },
+  "bin": {
+    "nereo-cli": "./build/cli.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +21,7 @@
     "cli",
     "vorpal"
   ],
-  "author": "phacks",
+  "author": "Nicolas Goutay <nicolas.goutay@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/phacks/nereo-cli/issues"

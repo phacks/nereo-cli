@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import Vorpal from "vorpal";
 
 import { getPrimaryTimedAccountsBalances } from "./nereo";

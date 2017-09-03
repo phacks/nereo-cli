@@ -66,7 +66,7 @@ const computePrimaryTimedAccounts = (timedAccounts, leaveRequests) => {
 
 const filterLeaveRequestsOnTimedAccount = (leaveRequests, timedAccount) =>
   leaveRequests.filter(leaveRequest => {
-    const matching = !1;
+    let matching = !1;
     return (
       leaveRequest.leaveRequestDates.forEach(leaveRequestDate => {
         leaveRequestDate.distribution.forEach(distribution => {
