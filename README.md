@@ -1,6 +1,6 @@
 # Nereo CLI
 
-A CLI for Nereo — Leave Management SaaS
+A CLI for [Nereo](https://nereo.com) — Leave Management SaaS
 
 ![nereo-cli-screenshot](https://i.imgur.com/QoVZsj7.png)
 
