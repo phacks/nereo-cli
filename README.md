@@ -28,7 +28,7 @@ As of now, the following features have been implemented:
 ## Roadmap
 
 - [ ] Add tests 😅
-- [ ] Manage dates dynamically (as of now, this CLI tool can only work for September 2017)
+- [x] Manage dates dynamically (as of now, this CLI tool can only work for September 2017)
 - [ ] Implement `balances YYYY-MM-DD` to display future balances
 
 ## Is it any good?

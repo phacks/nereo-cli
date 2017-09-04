@@ -11,6 +11,8 @@ var _axios2 = _interopRequireDefault(_axios);
 
 var _auth = require("./auth");
 
+var _utils = require("./utils");
+
 var _constants = require("./constants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -46,8 +48,8 @@ var getLeaveRequests = exports.getLeaveRequests = function getLeaveRequests() {
   return _axios2.default.get(`${_constants.NEREO_API_URL}/leaverequests`, {
     params: {
       userId: (0, _auth.getUserId)(),
-      min_date: _constants.NEREO_MIN_DATE,
-      max_date: _constants.NEREO_MAX_DATE,
+      min_date: (0, _utils.getFirstDayOfCurrentMonth)().format('YYYY-MM-DD'),
+      max_date: (0, _utils.getLastDayOfCurrentMonth)().format('YYYY-MM-DD'),
       state: ["RE", "V1", "VA"],
       is_cancellation_request: "false"
     }
@@ -59,8 +61,8 @@ var getBalances = exports.getBalances = function getBalances() {
     setHeaders();
   }
   return _axios2.default.post(`${_constants.NEREO_API_URL}/users/${(0, _auth.getUserId)()}/balances/`, {
-    start_date: _constants.NEREO_MIN_DATE,
-    end_date: _constants.NEREO_MAX_DATE
+    start_date: (0, _utils.getFirstDayOfCurrentMonth)().format('YYYY-MM-DD'),
+    end_date: (0, _utils.getLastDayOfCurrentMonth)().format('YYYY-MM-DD')
   });
 };
 

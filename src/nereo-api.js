@@ -1,10 +1,9 @@
 import axios from "axios";
 
 import { getToken, getUserId } from "./auth";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "./utils";
 import {
-  NEREO_API_URL,
-  NEREO_MIN_DATE,
-  NEREO_MAX_DATE
+  NEREO_API_URL
 } from "./constants";
 
 const isAuthenticated = () => axios.defaults.headers.common['Authorization'] !== undefined
@@ -32,8 +31,8 @@ export const getLeaveRequests = () => {
   return axios.get(`${NEREO_API_URL}/leaverequests`, {
     params: {
       userId: getUserId(),
-      min_date: NEREO_MIN_DATE,
-      max_date: NEREO_MAX_DATE,
+      min_date: getFirstDayOfCurrentMonth().format('YYYY-MM-DD'),
+      max_date: getLastDayOfCurrentMonth().format('YYYY-MM-DD'),
       state: ["RE", "V1", "VA"],
       is_cancellation_request: "false"
     }
@@ -43,8 +42,8 @@ export const getLeaveRequests = () => {
 export const getBalances = () => {
   if (!isAuthenticated()) { setHeaders() }
   return axios.post(`${NEREO_API_URL}/users/${getUserId()}/balances/`, {
-    start_date: NEREO_MIN_DATE,
-    end_date: NEREO_MAX_DATE,
+    start_date: getFirstDayOfCurrentMonth().format('YYYY-MM-DD'),
+    end_date: getLastDayOfCurrentMonth().format('YYYY-MM-DD'),
   })
 };
 
