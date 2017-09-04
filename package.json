@@ -4,7 +4,7 @@
   "description": "A CLI for Nereo — Leave Management SaaS",
   "main": "build/cli.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/jest/bin/jest.js",
     "dev": "./node_modules/babel-cli/bin/babel-node.js ./src/cli.js",
     "build": "babel src -d build",
     "start": "node build/cli.js"
@@ -37,7 +37,10 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-jest": "^21.0.0",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
-    "babel-preset-env": "^1.6.0"
+    "babel-preset-env": "^1.6.0",
+    "jest": "^21.0.1",
+    "regenerator-runtime": "^0.11.0"
   }
 }
