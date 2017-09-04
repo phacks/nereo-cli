@@ -1,3 +1,9 @@
+/**
+ * NereoAPI
+ * 
+ * Implements all the API calls.
+ */
+
 import axios from "axios";
 
 import { getToken, getUserId } from "./auth";

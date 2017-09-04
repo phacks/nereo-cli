@@ -1,3 +1,9 @@
+/**
+ * NereoService
+ * 
+ * This service implements the bits of logic that could not be infered from the API.
+ */
+
 import moment from "moment";
 
 import { getFirstDayOfMonth, getLastDayOfMonth } from "./utils";

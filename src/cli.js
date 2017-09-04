@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/**
+ * CLI
+ * 
+ * Defines the CLI commands using the Vorpal library.
+ */
+
 import Vorpal from "vorpal";
 
 import { getPrimaryTimedAccountsBalances } from "./nereo";

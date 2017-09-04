@@ -1,3 +1,9 @@
+/**
+ * Auth
+ * 
+ * Handles all the logic related to the .nereorc file, i.e. authentication
+ */
+
 import { readFileSync, writeFileSync } from "jsonfile";
 
 import { getCurrentUser } from "./nereo-api.js";

@@ -1,3 +1,9 @@
+/**
+ * Nereo
+ * 
+ * Glue together the logic and API calls.
+ */
+
 import moment from "moment";
 
 import { getTimedAccounts, getLeaveRequests, getBalances } from "./nereo-api";

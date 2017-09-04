@@ -1,3 +1,9 @@
+/**
+ * Utils
+ * 
+ * Some util methods.
+ */
+
 import { readFileSync } from "jsonfile";
 import moment from "moment";
 
