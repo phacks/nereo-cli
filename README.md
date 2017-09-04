@@ -1,5 +1,7 @@
 # Nereo CLI
 
+[![Build Status](https://travis-ci.org/phacks/nereo-cli.svg?branch=master)](https://travis-ci.org/phacks/nereo-cli)
+
 A CLI for [Nereo](https://nereo.com) — Leave Management SaaS
 
 ![nereo-cli-screenshot](https://i.imgur.com/QoVZsj7.png)
