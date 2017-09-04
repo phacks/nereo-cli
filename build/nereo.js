@@ -13,6 +13,8 @@ var _moment2 = _interopRequireDefault(_moment);
 
 var _nereoApi = require("./nereo-api");
 
+var _nereoService = require("./nereo-service");
+
 var _utils = require("./utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -21,7 +23,7 @@ var getPrimaryTimedAccountsBalances = exports.getPrimaryTimedAccountsBalances = 
   if (date === undefined) {
     date = (0, _moment2.default)();
   } else if (!(0, _moment2.default)(date).isValid()) {
-    throw new Error('Invalid date');
+    throw new Error("Invalid date");
   } else {
     date = (0, _moment2.default)(date);
   }
@@ -35,62 +37,12 @@ var getPrimaryTimedAccountsBalances = exports.getPrimaryTimedAccountsBalances = 
       var timedAccounts = timedAccountsResults.data.results;
       var leaveRequests = leaveRequestsResults.data.results;
       var balances = balancesResults.data.balance_user_accounts;
-      var primaryTimedAccounts = computePrimaryTimedAccounts(timedAccounts, leaveRequests, date);
-      var primaryTimedAccountsBalances = computeBalancesForPrimayTimedAccounts(primaryTimedAccounts, balances, date);
+      var primaryTimedAccounts = (0, _nereoService.computePrimaryTimedAccounts)(timedAccounts, leaveRequests, date);
+      var primaryTimedAccountsBalances = (0, _nereoService.computeBalancesForPrimayTimedAccounts)(primaryTimedAccounts, balances, date);
       resolve(primaryTimedAccountsBalances);
     }).catch(function (error) {
       console.log(error);
       reject(new Error(error));
     });
-  });
-};
-
-var computeBalancesForPrimayTimedAccounts = function computeBalancesForPrimayTimedAccounts(primaryTimedAccounts, balances, date) {
-  var primaryTimedAccountsBalances = [];
-  primaryTimedAccounts.forEach(function (primaryTimedAccount) {
-    var balanceForToday = balances.find(function (balance) {
-      return balance.timed_account === primaryTimedAccount.id;
-    }).balance_dates.find(function (balanceDate) {
-      return balanceDate.date === (0, _moment2.default)(date).format("YYYY-MM-DD");
-    }).balance;
-    primaryTimedAccountsBalances.push({
-      tatitle: primaryTimedAccount.tatitle,
-      balance: balanceForToday
-    });
-  });
-  return primaryTimedAccountsBalances;
-};
-
-var computePrimaryTimedAccounts = function computePrimaryTimedAccounts(timedAccounts, leaveRequests, date) {
-  var primaryTimedAccounts = [];
-  timedAccounts.filter(function (timedAccount) {
-    return !timedAccount.secondary;
-  }).forEach(function (timedAccount) {
-    var startCredit = timedAccount.startCredit;
-    var endCredit = timedAccount.endCredit;
-    var startDebt = timedAccount.startDebt;
-    var endDebt = timedAccount.endDebt;
-    var minDate = (0, _utils.getFirstDayOfMonth)(date);
-    var maxDate = (0, _utils.getLastDayOfMonth)(date);
-    if ((null === endCredit || minDate.isSameOrBefore(endCredit)) && (null === startCredit || maxDate.isSameOrAfter(startCredit)) || (null === endDebt || minDate.isSameOrBefore(endDebt)) && (null === startDebt || maxDate.isSameOrAfter(startDebt))) {
-      primaryTimedAccounts.push(timedAccount);
-    } else {
-      var matchingLeaveRequests = filterLeaveRequestsOnTimedAccount(leaveRequests, timedAccount);
-      matchingLeaveRequests.length > 0 && primaryTimedAccounts.push(timedAccount);
-    }
-  });
-  return primaryTimedAccounts;
-};
-
-var filterLeaveRequestsOnTimedAccount = function filterLeaveRequestsOnTimedAccount(leaveRequests, timedAccount) {
-  return leaveRequests.filter(function (leaveRequest) {
-    var matching = !1;
-    return leaveRequest.leaveRequestDates.forEach(function (leaveRequestDate) {
-      leaveRequestDate.distribution.forEach(function (distribution) {
-        if (distribution.account === timedAccount.id) {
-          return void (matching = !0);
-        }
-      });
-    }), matching;
   });
 };
