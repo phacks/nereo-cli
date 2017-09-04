@@ -17,8 +17,8 @@ var vorpal = (0, _vorpal2.default)();
 
 vorpal.command("login", "Login to Nereo").action(function (args, callback) {
   vorpal.activeCommand.prompt({
-    type: 'input',
-    name: 'token',
+    type: "input",
+    name: "token",
     message: `To get your token, go to your profile, in the Developers tab. \
 Please note that this token shares the same rights as your user account.
 Your token and UserId will be stored in the ~/.nereorc file.
@@ -31,7 +31,7 @@ Token: `
   }).then(function () {
     return callback();
   }).catch(function (error) {
-    vorpal.activeCommand.log('There was a problem. See the error logs for more info.');
+    vorpal.activeCommand.log("There was a problem. See the error logs for more info.");
     throw error;
   });
 });
@@ -41,11 +41,11 @@ vorpal.command("balances", "Show balances").action(function (args, callback) {
     vorpal.activeCommand.log((0, _utils.prettyPrintBalances)(balances));
     callback();
   }).catch(function (error) {
-    if (error.message === 'Unauthenticated') {
-      vorpal.activeCommand.log('You need to log in to access your balances. Try the `login` command.');
+    if (error.message === "Unauthenticated") {
+      vorpal.activeCommand.log("You need to log in to access your balances. Try the `login` command.");
       callback();
     } else {
-      vorpal.activeCommand.log('There was a problem. See the error logs for more info.');
+      vorpal.activeCommand.log("There was a problem. See the error logs for more info.");
       throw error;
     }
   });
