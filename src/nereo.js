@@ -1,22 +1,33 @@
 import moment from "moment";
 
 import { getTimedAccounts, getLeaveRequests, getBalances } from "./nereo-api";
-import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "./utils";
+import { getFirstDayOfMonth, getLastDayOfMonth } from "./utils";
 
-export const getPrimaryTimedAccountsBalances = () =>
-  new Promise((resolve, reject) => {
-    Promise.all([getTimedAccounts(), getLeaveRequests(), getBalances()])
+export const getPrimaryTimedAccountsBalances = (date) => {
+  if (date === undefined) {
+    date = moment();
+  }
+  else if (!moment(date).isValid()) {
+    throw new Error('Invalid date');
+  }
+  else {
+    date = moment(date);
+  }
+  return new Promise((resolve, reject) => {
+    Promise.all([getTimedAccounts(), getLeaveRequests(date), getBalances(date)])
       .then(([timedAccountsResults, leaveRequestsResults, balancesResults]) => {
         const timedAccounts = timedAccountsResults.data.results;
         const leaveRequests = leaveRequestsResults.data.results;
         const balances = balancesResults.data.balance_user_accounts;
         const primaryTimedAccounts = computePrimaryTimedAccounts(
           timedAccounts,
-          leaveRequests
+          leaveRequests,
+          date
         );
         const primaryTimedAccountsBalances = computeBalancesForPrimayTimedAccounts(
           primaryTimedAccounts,
-          balances
+          balances,
+          date
         );
         resolve(primaryTimedAccountsBalances);
       })
@@ -25,17 +36,19 @@ export const getPrimaryTimedAccountsBalances = () =>
         reject(new Error(error));
       });
   });
+}
 
 const computeBalancesForPrimayTimedAccounts = (
   primaryTimedAccounts,
-  balances
+  balances,
+  date
 ) => {
   const primaryTimedAccountsBalances = [];
   primaryTimedAccounts.forEach(primaryTimedAccount => {
     let balanceForToday = balances
       .find(balance => balance.timed_account === primaryTimedAccount.id)
       .balance_dates.find(
-        balanceDate => balanceDate.date === moment().format("YYYY-MM-DD")
+        balanceDate => balanceDate.date === moment(date).format("YYYY-MM-DD")
       ).balance;
     primaryTimedAccountsBalances.push({
       tatitle: primaryTimedAccount.tatitle,
@@ -45,7 +58,7 @@ const computeBalancesForPrimayTimedAccounts = (
   return primaryTimedAccountsBalances;
 };
 
-const computePrimaryTimedAccounts = (timedAccounts, leaveRequests) => {
+const computePrimaryTimedAccounts = (timedAccounts, leaveRequests, date) => {
   let primaryTimedAccounts = [];
   timedAccounts
     .filter(timedAccount => !timedAccount.secondary)
@@ -54,8 +67,8 @@ const computePrimaryTimedAccounts = (timedAccounts, leaveRequests) => {
       const endCredit = timedAccount.endCredit;
       const startDebt = timedAccount.startDebt;
       const endDebt = timedAccount.endDebt;
-      const minDate = getFirstDayOfCurrentMonth();
-      const maxDate = getLastDayOfCurrentMonth();
+      const minDate = getFirstDayOfMonth(date);
+      const maxDate = getLastDayOfMonth(date);
       if (
         ((null === endCredit || minDate.isSameOrBefore(endCredit)) &&
           (null === startCredit || maxDate.isSameOrAfter(startCredit))) ||

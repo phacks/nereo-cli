@@ -41,28 +41,28 @@ var getTimedAccounts = exports.getTimedAccounts = function getTimedAccounts() {
   });
 };
 
-var getLeaveRequests = exports.getLeaveRequests = function getLeaveRequests() {
+var getLeaveRequests = exports.getLeaveRequests = function getLeaveRequests(date) {
   if (!isAuthenticated()) {
     setHeaders();
   }
   return _axios2.default.get(`${_constants.NEREO_API_URL}/leaverequests`, {
     params: {
       userId: (0, _auth.getUserId)(),
-      min_date: (0, _utils.getFirstDayOfCurrentMonth)().format('YYYY-MM-DD'),
-      max_date: (0, _utils.getLastDayOfCurrentMonth)().format('YYYY-MM-DD'),
+      min_date: (0, _utils.getFirstDayOfMonth)(date).format('YYYY-MM-DD'),
+      max_date: (0, _utils.getLastDayOfMonth)(date).format('YYYY-MM-DD'),
       state: ["RE", "V1", "VA"],
       is_cancellation_request: "false"
     }
   });
 };
 
-var getBalances = exports.getBalances = function getBalances() {
+var getBalances = exports.getBalances = function getBalances(date) {
   if (!isAuthenticated()) {
     setHeaders();
   }
   return _axios2.default.post(`${_constants.NEREO_API_URL}/users/${(0, _auth.getUserId)()}/balances/`, {
-    start_date: (0, _utils.getFirstDayOfCurrentMonth)().format('YYYY-MM-DD'),
-    end_date: (0, _utils.getLastDayOfCurrentMonth)().format('YYYY-MM-DD')
+    start_date: (0, _utils.getFirstDayOfMonth)(date).format('YYYY-MM-DD'),
+    end_date: (0, _utils.getLastDayOfMonth)(date).format('YYYY-MM-DD')
   });
 };
 

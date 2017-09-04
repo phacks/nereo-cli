@@ -17,9 +17,16 @@ var _utils = require("./utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var getPrimaryTimedAccountsBalances = exports.getPrimaryTimedAccountsBalances = function getPrimaryTimedAccountsBalances() {
+var getPrimaryTimedAccountsBalances = exports.getPrimaryTimedAccountsBalances = function getPrimaryTimedAccountsBalances(date) {
+  if (date === undefined) {
+    date = (0, _moment2.default)();
+  } else if (!(0, _moment2.default)(date).isValid()) {
+    throw new Error('Invalid date');
+  } else {
+    date = (0, _moment2.default)(date);
+  }
   return new Promise(function (resolve, reject) {
-    Promise.all([(0, _nereoApi.getTimedAccounts)(), (0, _nereoApi.getLeaveRequests)(), (0, _nereoApi.getBalances)()]).then(function (_ref) {
+    Promise.all([(0, _nereoApi.getTimedAccounts)(), (0, _nereoApi.getLeaveRequests)(date), (0, _nereoApi.getBalances)(date)]).then(function (_ref) {
       var _ref2 = _slicedToArray(_ref, 3),
           timedAccountsResults = _ref2[0],
           leaveRequestsResults = _ref2[1],
@@ -28,8 +35,8 @@ var getPrimaryTimedAccountsBalances = exports.getPrimaryTimedAccountsBalances = 
       var timedAccounts = timedAccountsResults.data.results;
       var leaveRequests = leaveRequestsResults.data.results;
       var balances = balancesResults.data.balance_user_accounts;
-      var primaryTimedAccounts = computePrimaryTimedAccounts(timedAccounts, leaveRequests);
-      var primaryTimedAccountsBalances = computeBalancesForPrimayTimedAccounts(primaryTimedAccounts, balances);
+      var primaryTimedAccounts = computePrimaryTimedAccounts(timedAccounts, leaveRequests, date);
+      var primaryTimedAccountsBalances = computeBalancesForPrimayTimedAccounts(primaryTimedAccounts, balances, date);
       resolve(primaryTimedAccountsBalances);
     }).catch(function (error) {
       console.log(error);
@@ -38,13 +45,13 @@ var getPrimaryTimedAccountsBalances = exports.getPrimaryTimedAccountsBalances = 
   });
 };
 
-var computeBalancesForPrimayTimedAccounts = function computeBalancesForPrimayTimedAccounts(primaryTimedAccounts, balances) {
+var computeBalancesForPrimayTimedAccounts = function computeBalancesForPrimayTimedAccounts(primaryTimedAccounts, balances, date) {
   var primaryTimedAccountsBalances = [];
   primaryTimedAccounts.forEach(function (primaryTimedAccount) {
     var balanceForToday = balances.find(function (balance) {
       return balance.timed_account === primaryTimedAccount.id;
     }).balance_dates.find(function (balanceDate) {
-      return balanceDate.date === (0, _moment2.default)().format("YYYY-MM-DD");
+      return balanceDate.date === (0, _moment2.default)(date).format("YYYY-MM-DD");
     }).balance;
     primaryTimedAccountsBalances.push({
       tatitle: primaryTimedAccount.tatitle,
@@ -54,7 +61,7 @@ var computeBalancesForPrimayTimedAccounts = function computeBalancesForPrimayTim
   return primaryTimedAccountsBalances;
 };
 
-var computePrimaryTimedAccounts = function computePrimaryTimedAccounts(timedAccounts, leaveRequests) {
+var computePrimaryTimedAccounts = function computePrimaryTimedAccounts(timedAccounts, leaveRequests, date) {
   var primaryTimedAccounts = [];
   timedAccounts.filter(function (timedAccount) {
     return !timedAccount.secondary;
@@ -63,8 +70,8 @@ var computePrimaryTimedAccounts = function computePrimaryTimedAccounts(timedAcco
     var endCredit = timedAccount.endCredit;
     var startDebt = timedAccount.startDebt;
     var endDebt = timedAccount.endDebt;
-    var minDate = (0, _utils.getFirstDayOfCurrentMonth)();
-    var maxDate = (0, _utils.getLastDayOfCurrentMonth)();
+    var minDate = (0, _utils.getFirstDayOfMonth)(date);
+    var maxDate = (0, _utils.getLastDayOfMonth)(date);
     if ((null === endCredit || minDate.isSameOrBefore(endCredit)) && (null === startCredit || maxDate.isSameOrAfter(startCredit)) || (null === endDebt || minDate.isSameOrBefore(endDebt)) && (null === startDebt || maxDate.isSameOrAfter(startDebt))) {
       primaryTimedAccounts.push(timedAccount);
     } else {

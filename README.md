@@ -22,14 +22,14 @@ As of now, the following features have been implemented:
 
 - `help`: Displays help
 - `login`: Login to Nereo using a Developer Token. Required for displaying balances.
-- `balances`: Display current balances
+- `balances [date]`: Display current balances. [Optional] YYYY-MM-DD date to get balances for a specific date.
 - `version`: Display installed `nereo-cli` version.
 
 ## Roadmap
 
 - [ ] Add tests 😅
 - [x] Manage dates dynamically (as of now, this CLI tool can only work for September 2017)
-- [ ] Implement `balances YYYY-MM-DD` to display future balances
+- [x] Implement `balances YYYY-MM-DD` to display future balances
 
 ## Is it any good?
 

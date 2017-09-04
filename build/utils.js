@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getLastDayOfCurrentMonth = exports.getFirstDayOfCurrentMonth = exports.getVersion = exports.prettyPrintBalances = undefined;
+exports.getLastDayOfMonth = exports.getFirstDayOfMonth = exports.getVersion = exports.prettyPrintBalances = undefined;
 
 var _jsonfile = require("jsonfile");
 
@@ -32,16 +32,14 @@ var getVersion = exports.getVersion = function getVersion() {
   return (0, _jsonfile.readFileSync)('./package.json').version;
 };
 
-var getFirstDayOfCurrentMonth = exports.getFirstDayOfCurrentMonth = function getFirstDayOfCurrentMonth() {
-  var today = (0, _moment2.default)();
-  var year = today.year();
-  var month = today.month();
+var getFirstDayOfMonth = exports.getFirstDayOfMonth = function getFirstDayOfMonth(date) {
+  var year = date.year();
+  var month = date.month();
   return (0, _moment2.default)([year, month, 1]);
 };
 
-var getLastDayOfCurrentMonth = exports.getLastDayOfCurrentMonth = function getLastDayOfCurrentMonth() {
-  var today = (0, _moment2.default)();
-  var year = today.year();
-  var nextMonth = today.month() === 11 ? 0 : today.month() + 1;
+var getLastDayOfMonth = exports.getLastDayOfMonth = function getLastDayOfMonth(date) {
+  var year = date.month() === 11 ? date.year() + 1 : date.year();
+  var nextMonth = date.month() === 11 ? 0 : date.month() + 1;
   return (0, _moment2.default)([year, nextMonth, 1]).subtract(1, 'day');
 };

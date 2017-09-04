@@ -36,8 +36,8 @@ Token: `
   });
 });
 
-vorpal.command("balances", "Show balances").action(function (args, callback) {
-  (0, _nereo.getPrimaryTimedAccountsBalances)().then(function (balances) {
+vorpal.command("balances [date]", "Show balances. [Optional] YYYY-MM-DD date to get balances for a specific date.").action(function (args, callback) {
+  return (0, _nereo.getPrimaryTimedAccountsBalances)(args.date).then(function (balances) {
     vorpal.activeCommand.log((0, _utils.prettyPrintBalances)(balances));
     callback();
   }).catch(function (error) {

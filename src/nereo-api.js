@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { getToken, getUserId } from "./auth";
-import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "./utils";
+import { getFirstDayOfMonth, getLastDayOfMonth } from "./utils";
 import {
   NEREO_API_URL
 } from "./constants";
@@ -26,24 +26,24 @@ export const getTimedAccounts = () => {
   }) 
 };
 
-export const getLeaveRequests = () => {
+export const getLeaveRequests = (date) => {
   if (!isAuthenticated()) { setHeaders() }
   return axios.get(`${NEREO_API_URL}/leaverequests`, {
     params: {
       userId: getUserId(),
-      min_date: getFirstDayOfCurrentMonth().format('YYYY-MM-DD'),
-      max_date: getLastDayOfCurrentMonth().format('YYYY-MM-DD'),
+      min_date: getFirstDayOfMonth(date).format('YYYY-MM-DD'),
+      max_date: getLastDayOfMonth(date).format('YYYY-MM-DD'),
       state: ["RE", "V1", "VA"],
       is_cancellation_request: "false"
     }
   })
 };
 
-export const getBalances = () => {
+export const getBalances = (date) => {
   if (!isAuthenticated()) { setHeaders() }
   return axios.post(`${NEREO_API_URL}/users/${getUserId()}/balances/`, {
-    start_date: getFirstDayOfCurrentMonth().format('YYYY-MM-DD'),
-    end_date: getLastDayOfCurrentMonth().format('YYYY-MM-DD'),
+    start_date: getFirstDayOfMonth(date).format('YYYY-MM-DD'),
+    end_date: getLastDayOfMonth(date).format('YYYY-MM-DD'),
   })
 };
 

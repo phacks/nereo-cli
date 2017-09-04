@@ -30,26 +30,31 @@ Token: `
     });
 });
 
-vorpal.command("balances", "Show balances").action((args, callback) => {
-  getPrimaryTimedAccountsBalances()
-    .then(balances => {
-      vorpal.activeCommand.log(prettyPrintBalances(balances));
-      callback();
-    })
-    .catch(error => {
-      if (error.message === "Unauthenticated") {
-        vorpal.activeCommand.log(
-          "You need to log in to access your balances. Try the `login` command."
-        );
+vorpal
+  .command(
+    "balances [date]",
+    "Show balances. [Optional] YYYY-MM-DD date to get balances for a specific date."
+  )
+  .action((args, callback) => 
+    getPrimaryTimedAccountsBalances(args.date)
+      .then(balances => {
+        vorpal.activeCommand.log(prettyPrintBalances(balances));
         callback();
-      } else {
-        vorpal.activeCommand.log(
-          "There was a problem. See the error logs for more info."
-        );
-        throw error;
-      }
-    });
-});
+      })
+      .catch(error => {
+        if (error.message === "Unauthenticated") {
+          vorpal.activeCommand.log(
+            "You need to log in to access your balances. Try the `login` command."
+          );
+          callback();
+        } else {
+          vorpal.activeCommand.log(
+            "There was a problem. See the error logs for more info."
+          );
+          throw error;
+        }
+      })
+  );
 
 vorpal
   .command("version", "Show current nereo-cli version")

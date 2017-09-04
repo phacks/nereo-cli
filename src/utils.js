@@ -17,16 +17,14 @@ export const prettyPrintBalances = (balances) => {
 export const getVersion = () =>
   readFileSync('./package.json').version
 
-export const getFirstDayOfCurrentMonth = () => {
-  const today = moment();
-  const year = today.year();
-  const month = today.month();
+export const getFirstDayOfMonth = (date) => {
+  const year = date.year();
+  const month = date.month();
   return moment([year, month, 1]);
 }
 
-export const getLastDayOfCurrentMonth = () => {
-  const today = moment();
-  const year = today.year();
-  const nextMonth = today.month() === 11 ? 0 : today.month() + 1;
+export const getLastDayOfMonth = (date) => {
+  const year = date.month() === 11 ? date.year() + 1 : date.year();
+  const nextMonth = date.month() === 11 ? 0 : date.month() + 1;
   return moment([year, nextMonth, 1]).subtract(1, 'day');
 }
