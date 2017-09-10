@@ -21,7 +21,7 @@ export const prettyPrintBalances = (balances) => {
 }
 
 export const getVersion = () =>
-  readFileSync('./package.json').version
+  readFileSync('./../package.json').version
 
 export const getFirstDayOfMonth = (date) => {
   const year = date.year();

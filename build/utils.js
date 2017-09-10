@@ -33,7 +33,7 @@ var prettyPrintBalances = exports.prettyPrintBalances = function prettyPrintBala
     */
 
 var getVersion = exports.getVersion = function getVersion() {
-  return (0, _jsonfile.readFileSync)('./package.json').version;
+  return (0, _jsonfile.readFileSync)('./../package.json').version;
 };
 
 var getFirstDayOfMonth = exports.getFirstDayOfMonth = function getFirstDayOfMonth(date) {
