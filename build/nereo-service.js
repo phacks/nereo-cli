@@ -13,6 +13,12 @@ var _utils = require("./utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * NereoService
+ * 
+ * This service implements the bits of logic that could not be infered from the API.
+ */
+
 var computeBalancesForPrimayTimedAccounts = exports.computeBalancesForPrimayTimedAccounts = function computeBalancesForPrimayTimedAccounts(primaryTimedAccounts, balances, date) {
   var primaryTimedAccountsBalances = [];
   primaryTimedAccounts.forEach(function (primaryTimedAccount) {

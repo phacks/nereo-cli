@@ -13,6 +13,12 @@ var _auth = require("./auth");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * CLI
+ * 
+ * Defines the CLI commands using the Vorpal library.
+ */
+
 var vorpal = (0, _vorpal2.default)();
 
 vorpal.command("login", "Login to Nereo").action(function (args, callback) {

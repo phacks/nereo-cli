@@ -14,7 +14,11 @@ var _constants = require("./constants");
 var getToken = exports.getToken = function getToken() {
   var rcFileObject = (0, _jsonfile.readFileSync)(_constants.NEREO_RC_PATH);
   return rcFileObject.token;
-};
+}; /**
+    * Auth
+    * 
+    * Handles all the logic related to the .nereorc file, i.e. authentication
+    */
 
 var getUserId = exports.getUserId = function getUserId() {
   var rcFileObject = (0, _jsonfile.readFileSync)(_constants.NEREO_RC_PATH);

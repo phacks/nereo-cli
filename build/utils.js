@@ -26,7 +26,11 @@ var prettyPrintBalances = exports.prettyPrintBalances = function prettyPrintBala
     table.push([balance.tatitle, balance.balance]);
   });
   return table.toString();
-};
+}; /**
+    * Utils
+    * 
+    * Some util methods.
+    */
 
 var getVersion = exports.getVersion = function getVersion() {
   return (0, _jsonfile.readFileSync)('./package.json').version;

@@ -17,6 +17,12 @@ var _constants = require("./constants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * NereoAPI
+ * 
+ * Implements all the API calls.
+ */
+
 var isAuthenticated = function isAuthenticated() {
   return _axios2.default.defaults.headers.common['Authorization'] !== undefined;
 };
